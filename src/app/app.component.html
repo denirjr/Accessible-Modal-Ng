@@ -5,34 +5,92 @@
   Show Modal
 </button>
 
-<div class="form-field">
-  <label for="firstName">First Name</label>
-  <input id="firstName" [(value)]="firstName" />
-</div>
-
 <ng-template #modal>
-  <div class="form-field">
-    <label for="surname">Surname</label>
-    <input id="surname" />
-  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="firstName">First Name</label>
+      <input
+        aria-describedby="firstname-error"
+        [attr.aria-invalid]="form.get('firstName').invalid"
+        formControlName="firstName"
+        id="firstName"
+      />
+      <span
+        id="firstname-error"
+        class="validation-error"
+        *ngIf="form.get('firstName')?.errors?.required"
+      >
+        First name is required
+      </span>
+    </div>
 
-  <label for="ifo">Subscribe to news latter</label>
-  <input id="info" type="checkbox" (change)="info = !info" />
-  <p [@fade] *ngIf="info">Placeholder for more information</p>
+    <div class="form-field">
+      <label for="surname">Surname</label>
+      <input
+        aria-describedby="surname-error"
+        [attr.aria-invalid]="form.get('surname').invalid"
+        formControlName="surname"
+        id="surname"
+      />
+      <span
+        id="surname-error"
+        class="validation-error"
+        *ngIf="form.get('surname')?.errors?.required"
+      >
+        Surname is required
+      </span>
+    </div>
 
-  <div class="form-field">
-    <label for="age">Age</label>
-    <input id="age" />
-  </div>
+    <div class="form-field">
+      <label for="age">Age</label>
+      <input
+        aria-describedby="age-error"
+        [attr.aria-invalid]="form.get('age').invalid"
+        formControlName="age"
+        id="age"
+      />
+      <span
+        id="age-error"
+        class="validation-error"
+        *ngIf="form.get('age')?.errors?.required"
+      >
+        Age is required
+      </span>
+    </div>
 
-  <div class="button-group">
-    <button class="button button-primary" type="button">Submit</button>
-    <button
-      class="button button-secondary"
-      type="button"
-      (click)="modalRef.close()"
+    <label for="ifo">Subscribe to news latter</label>
+    <input
+      aria-describedby="info-error"
+      [attr.aria-invalid]="form.get('info').invalid"
+      formControlName="info"
+      id="info"
+      type="checkbox"
+      (change)="info = !info"
+    />
+    <span
+      id="info-error"
+      class="validation-error"
+      *ngIf="form.get('age')?.errors?.required"
     >
-      Cancel
-    </button>
-  </div>
+      info is required
+    </span>
+    <p [@fade] *ngIf="info">Placeholder for more information</p>
+
+    <div class="button-group">
+      <button
+        [attr.aria-disabled]="form.invalid"
+        class="button button-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+      <button
+        class="button button-secondary"
+        type="button"
+        (click)="modalRef.close()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
 </ng-template>
